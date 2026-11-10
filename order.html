@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://xpdmnecyhhzsmujgptwg.supabase.co" crossorigin>
+
+    <title>JOVAFAM | Pedido</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    fontFamily: {
+
+                        'display': ['Playfair Display', 'serif'],
+
+                        'sans': ['Inter', 'sans-serif'],
+
+                        'mono': ['Space Grotesk', 'monospace'],
+
+                    },
+
+                    colors: {
+
+                        'luxury': {
+
+                            900: '#0a0a0a', 800: '#141414', 700: '#1c1c1c',
+
+                            600: '#2a2a2a', 500: '#3a3a3a',
+
+                            gold: '#c9a96e', 'gold-light': '#e8d5a3', cream: '#f5f0e8',
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+    <style>
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { background-color: #0a0a0a; color: #f5f0e8; font-family: 'Inter', sans-serif; }
+
+        .gold-shimmer {
+
+            background: linear-gradient(90deg, #c9a96e 0%, #e8d5a3 25%, #c9a96e 50%, #e8d5a3 75%, #c9a96e 100%);
+
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+
+            background-clip: text; animation: shimmer 3s linear infinite;
+
+        }
+
+        @keyframes shimmer { to { background-position: 200% center; } }
+
+        ::-webkit-scrollbar { width: 6px; }
+
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+
+        ::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 3px; }
+
+        ::-webkit-scrollbar-thumb:hover { background: #c9a96e; }
+
+
+
+
+
+/* =========================================================
+
+   JOVAFAM — LIGHT LUXURY THEME
+
+   Adaptación clara, elegante y premium
+
+   ========================================================= */
+
+:root {
+
+    --jf-bg: #f7f5f0;
+
+    --jf-bg-top: #fbfaf7;
+
+    --jf-surface: #ffffff;
+
+    --jf-surface-soft: #f2eee7;
+
+    --jf-surface-muted: #ebe5db;
+
+    --jf-text: #1f2933;
+
+    --jf-text-soft: #667085;
+
+    --jf-text-muted: #98a2b3;
+
+    --jf-border: #ded7cb;
+
+    --jf-border-soft: #ebe6de;
+
+    --jf-gold: #b58a45;
+
+    --jf-gold-hover: #a97e3d;
+
+    --jf-gold-light: #d7bc84;
+
+    --jf-gold-soft: rgba(181, 138, 69, 0.10);
+
+    --jf-shadow: 0 12px 34px rgba(45, 38, 28, 0.08);
+
+    --jf-shadow-soft: 0 6px 18px rgba(45, 38, 28, 0.06);
+
+}
+
+html { color-scheme: light; }
+
+body {
+
+    background:
+
+        radial-gradient(circle at top left, rgba(215,188,132,.12), transparent 34%),
+
+        linear-gradient(180deg, var(--jf-bg-top) 0%, var(--jf-bg) 100%) !important;
+
+    color: var(--jf-text) !important;
+
+}
+
+
+
+/* Mapeo visual de las utilidades Tailwind existentes */
+
+.bg-luxury-900 { background-color: var(--jf-surface) !important; }
+
+.bg-luxury-900\/50 { background-color: rgba(255,255,255,.82) !important; }
+
+.bg-luxury-900\/80 { background-color: rgba(255,255,255,.92) !important; }
+
+.bg-luxury-900\/85 { background-color: rgba(255,255,255,.94) !important; }
+
+.bg-luxury-900\/90 { background-color: rgba(255,255,255,.95) !important; }
+
+.bg-luxury-900\/95 { background-color: rgba(255,255,255,.97) !important; }
+
+
+
+.bg-luxury-800 { background-color: var(--jf-surface) !important; }
+
+.bg-luxury-800\/20 { background-color: rgba(242,238,231,.50) !important; }
+
+.bg-luxury-800\/30 { background-color: rgba(242,238,231,.66) !important; }
+
+.bg-luxury-800\/50 { background-color: rgba(255,255,255,.88) !important; }
+
+
+
+.bg-luxury-700 { background-color: var(--jf-surface-muted) !important; }
+
+.bg-luxury-gold { background-color: var(--jf-gold) !important; }
+
+.bg-luxury-gold\/5 { background-color: rgba(181,138,69,.05) !important; }
+
+.bg-luxury-gold\/10 { background-color: rgba(181,138,69,.10) !important; }
+
+.bg-luxury-gold\/20 { background-color: rgba(181,138,69,.16) !important; }
+
+.bg-luxury-cream { background-color: var(--jf-gold) !important; }
+
+
+
+.text-luxury-cream,
+
+.text-luxury-900 { color: var(--jf-text) !important; }
+
+.text-luxury-400 { color: #475467 !important; }
+
+.text-luxury-500 { color: var(--jf-text-soft) !important; }
+
+.text-luxury-600 { color: var(--jf-text-muted) !important; }
+
+.text-luxury-gold { color: var(--jf-gold) !important; }
+
+.text-luxury-700\/50 { color: #d2c9bc !important; }
+
+
+
+.border-luxury-300 { border-color: #d8d1c6 !important; }
+
+.border-luxury-600 { border-color: #d4ccbf !important; }
+
+.border-luxury-600\/30 { border-color: rgba(212,204,191,.55) !important; }
+
+.border-luxury-700 { border-color: var(--jf-border) !important; }
+
+.border-luxury-700\/30 { border-color: rgba(222,215,203,.48) !important; }
+
+.border-luxury-700\/50 { border-color: rgba(222,215,203,.74) !important; }
+
+.border-luxury-gold { border-color: var(--jf-gold) !important; }
+
+.border-luxury-gold\/20 { border-color: rgba(181,138,69,.22) !important; }
+
+.border-luxury-gold\/30 { border-color: rgba(181,138,69,.32) !important; }
+
+.border-luxury-gold\/40 { border-color: rgba(181,138,69,.42) !important; }
+
+.border-luxury-gold\/50 { border-color: rgba(181,138,69,.54) !important; }
+
+
+
+.hover\:bg-luxury-gold:hover { background-color: var(--jf-gold-hover) !important; }
+
+.hover\:bg-luxury-gold-light:hover { background-color: var(--jf-gold-light) !important; }
+
+.hover\:bg-luxury-gold\/10:hover { background-color: rgba(181,138,69,.10) !important; }
+
+.hover\:bg-luxury-gold\/20:hover { background-color: rgba(181,138,69,.16) !important; }
+
+.hover\:bg-luxury-gold\/30:hover { background-color: rgba(181,138,69,.22) !important; }
+
+.hover\:text-luxury-cream:hover { color: var(--jf-text) !important; }
+
+.hover\:text-luxury-gold:hover { color: var(--jf-gold) !important; }
+
+.hover\:text-luxury-gold-light:hover { color: var(--jf-gold-light) !important; }
+
+.hover\:border-luxury-gold:hover { border-color: var(--jf-gold) !important; }
+
+.hover\:border-luxury-gold\/50:hover { border-color: rgba(181,138,69,.60) !important; }
+
+
+
+.focus\:border-luxury-gold:focus {
+
+    border-color: var(--jf-gold) !important;
+
+    box-shadow: 0 0 0 3px rgba(181,138,69,.10) !important;
+
+}
+
+.accent-luxury-gold { accent-color: var(--jf-gold) !important; }
+
+
+
+input:not([type="range"]):not([type="color"]):not([type="checkbox"]),
+
+textarea,
+
+select {
+
+    background-color: #fff !important;
+
+    color: var(--jf-text) !important;
+
+    border-color: var(--jf-border) !important;
+
+}
+
+input::placeholder,
+
+textarea::placeholder { color: #a1a7b0 !important; }
+
+select option { background:#fff; color:var(--jf-text); }
+
+
+
+.gold-shimmer {
+
+    background: linear-gradient(
+
+        90deg,
+
+        #9f7535 0%,
+
+        #d6b778 25%,
+
+        #ad8240 50%,
+
+        #e2ca98 75%,
+
+        #9f7535 100%
+
+    ) !important;
+
+    background-size: 200% auto !important;
+
+    -webkit-background-clip: text !important;
+
+    -webkit-text-fill-color: transparent !important;
+
+    background-clip: text !important;
+
+}
+
+
+
+::-webkit-scrollbar-track { background: var(--jf-surface-soft) !important; }
+
+::-webkit-scrollbar-thumb { background: #cfc7bb !important; }
+
+::-webkit-scrollbar-thumb:hover { background: var(--jf-gold) !important; }
+
+
+
+/* ===================== ORDER ===================== */
+
+body { min-height:100vh; }
+
+
+
+body > header {
+
+    background: rgba(255,255,255,.92) !important;
+
+    border-bottom: 1px solid rgba(222,215,203,.78) !important;
+
+    box-shadow: 0 8px 28px rgba(45,38,28,.05);
+
+}
+
+
+
+#order-content > .bg-luxury-800\/50 {
+
+    background: rgba(255,255,255,.92) !important;
+
+    border-color: rgba(222,215,203,.82) !important;
+
+    box-shadow: var(--jf-shadow-soft);
+
+}
+
+
+
+/* Contenedores de imágenes del diseño */
+
+#design-images .bg-luxury-900 {
+
+    background: #f3efe8 !important;
+
+}
+
+#design-images .bg-luxury-800\/50 {
+
+    background: rgba(255,255,255,.86) !important;
+
+}
+
+
+
+/* Pantallas de error/configuración */
+
+#error-config input {
+
+    background:#fff !important;
+
+    color:var(--jf-text) !important;
+
+}
+
+#error-notfound,
+
+#error-config,
+
+#loading {
+
+    color: var(--jf-text);
+
+}
+
+
+
+/* Spinner */
+
+#loading .border-luxury-gold\/20 {
+
+    border-color: rgba(181,138,69,.20) !important;
+
+}
+
+#loading .border-t-luxury-gold {
+
+    border-top-color: var(--jf-gold) !important;
+
+}
+
+
+
+/* Insignias de error y estado */
+
+.bg-red-500\/10 {
+
+    background-color: rgba(220,38,38,.07) !important;
+
+}
+
+
+
+
+
+/* ===== VISOR DE DISEÑO POR COLOR / VISTA ===== */
+
+.order-design-toolbar { margin-bottom: 16px; }
+
+.order-color-tabs,
+
+.order-view-tabs {
+
+    display: flex;
+
+    gap: 8px;
+
+    overflow-x: auto;
+
+    padding: 2px 2px 8px;
+
+    scrollbar-width: thin;
+
+}
+
+.order-color-btn,
+
+.order-view-btn {
+
+    flex: 0 0 auto;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 12px;
+
+    border-radius: 999px;
+
+    border: 1px solid var(--jf-border);
+
+    background: #fff;
+
+    color: var(--jf-text-soft);
+
+    font-size: 11px;
+
+    transition: .2s ease;
+
+}
+
+.order-color-btn:hover,
+
+.order-view-btn:hover {
+
+    border-color: rgba(181,138,69,.55);
+
+    color: var(--jf-gold);
+
+}
+
+.order-color-btn.active,
+
+.order-view-btn.active {
+
+    border-color: var(--jf-gold);
+
+    color: var(--jf-gold);
+
+    background: rgba(181,138,69,.09);
+
+    box-shadow: 0 0 0 2px rgba(181,138,69,.06);
+
+}
+
+.order-color-dot {
+
+    width: 16px;
+
+    height: 16px;
+
+    border-radius: 50%;
+
+    border: 2px solid #fff;
+
+    box-shadow: 0 0 0 1px rgba(45,38,28,.20);
+
+}
+
+.order-design-stage {
+
+    min-height: 320px;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--jf-border-soft);
+
+    background: #f7f4ee;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+.order-design-stage img {
+
+    width: 100%;
+
+    max-height: 650px;
+
+    object-fit: contain;
+
+    display: block;
+
+}
+
+.order-design-meta {
+
+    padding: 10px 12px;
+
+    border-top: 1px solid var(--jf-border-soft);
+
+    background: rgba(255,255,255,.88);
+
+    font-size: 11px;
+
+    color: var(--jf-text-soft);
+
+}
+
+
+
+
+/* Rendimiento móvil: eliminar blur costoso sin cambiar estructura. */
+@media(max-width:899px){.backdrop-blur-xl,.backdrop-blur-md,.backdrop-blur-sm{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
+</style>
+
+<base target="_blank">
+
+</head>
+
+<body class="bg-luxury-900 text-luxury-cream min-h-screen">
+
+
+
+    <header class="bg-luxury-900/90 backdrop-blur-xl border-b border-luxury-700/30 sticky top-0 z-50">
+
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+
+            <div class="flex items-center justify-between h-16">
+
+                <a href="inicio.html" class="flex items-center gap-3">
+
+                    <div class="w-8 h-8 border border-luxury-gold/50 rounded-full flex items-center justify-center">
+
+                        <span class="font-display text-luxury-gold text-sm">J</span>
+
+                    </div>
+
+                    <span class="font-display text-xl text-luxury-cream">JOVAFAM</span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <main class="max-w-3xl mx-auto px-4 lg:px-8 py-12">
+
+        <div id="loading" class="text-center py-20">
+
+            <div class="w-12 h-12 border-2 border-luxury-gold/20 border-t-luxury-gold rounded-full animate-spin mx-auto mb-4"></div>
+
+            <p class="text-luxury-500 font-mono text-sm">Cargando pedido...</p>
+
+        </div>
+
+
+
+        <div id="error-notfound" class="hidden text-center py-20">
+
+            <div class="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4">
+
+                <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+
+            </div>
+
+            <h2 class="font-display text-2xl text-luxury-cream mb-2">Pedido no encontrado</h2>
+
+            <p class="text-luxury-500">El enlace puede haber expirado o ser incorrecto.</p>
+
+        </div>
+
+
+
+        <div id="error-config" class="hidden text-center py-12">
+
+            <div class="w-16 h-16 rounded-full bg-luxury-gold/10 flex items-center justify-center mx-auto mb-4">
+
+                <svg class="w-8 h-8 text-luxury-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+
+            </div>
+
+            <h2 class="font-display text-2xl text-luxury-cream mb-2">Configuracion necesaria</h2>
+
+            <p class="text-luxury-500 mb-6 max-w-md mx-auto">Este dispositivo no tiene la conexion a Supabase configurada. Pega aqui los datos de tu proyecto para ver el pedido.</p>
+
+            <div class="max-w-sm mx-auto space-y-3 text-left">
+
+                <div>
+
+                    <label class="block font-mono text-[10px] uppercase tracking-wider text-luxury-500 mb-1">Supabase URL</label>
+
+                    <input type="text" id="cfg-url" placeholder="https://xpdmnecyhhzsmujgptwg.supabase.co" class="w-full bg-luxury-800 border border-luxury-700 rounded-lg px-3 py-2 text-luxury-cream text-sm focus:border-luxury-gold focus:outline-none">
+
+                </div>
+
+                <div>
+
+                    <label class="block font-mono text-[10px] uppercase tracking-wider text-luxury-500 mb-1">Supabase Anon Key</label>
+
+                    <input type="password" id="cfg-key" placeholder="eyJhbGciOiJIUzI1NiIs..." class="w-full bg-luxury-800 border border-luxury-700 rounded-lg px-3 py-2 text-luxury-cream text-sm focus:border-luxury-gold focus:outline-none">
+
+                </div>
+
+                <button onclick="saveAndRetry()" class="w-full py-2.5 bg-luxury-gold text-luxury-900 rounded-lg font-mono text-xs uppercase tracking-wider font-semibold hover:bg-luxury-gold-light transition-colors">
+
+                    Guardar y Ver Pedido
+
+                </button>
+
+                <p class="text-[10px] text-luxury-600 text-center">Los encuentras en Supabase > Project Settings > API</p>
+
+            </div>
+
+        </div>
+
+
+
+        <div id="order-content" class="hidden space-y-8">
+
+            <div class="text-center">
+
+                <span class="font-mono text-xs uppercase tracking-[0.3em] text-luxury-gold mb-2 block">Pedido Confirmado</span>
+
+                <h1 class="font-display text-4xl md:text-5xl text-luxury-cream mb-2">Pedido <span id="order-id" class="gold-shimmer"></span></h1>
+
+                <p class="text-luxury-500 text-sm" id="order-date"></p>
+
+                <div id="payment-badge" class="mt-3"></div>
+
+            </div>
+
+
+
+            <div class="bg-luxury-800/50 border border-luxury-700/50 rounded-2xl p-6 md:p-8">
+
+                <h2 class="font-mono text-xs uppercase tracking-widest text-luxury-gold mb-6">Datos del Cliente</h2>
+
+                <div class="grid md:grid-cols-2 gap-4 text-sm">
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Nombre</span><span id="customer-name" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Correo</span><span id="customer-email" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Telefono</span><span id="customer-phone" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Pais</span><span id="customer-country" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Ciudad</span><span id="customer-city" class="text-luxury-cream"></span></div>
+
+                    <div class="md:col-span-2"><span class="text-luxury-500 block text-xs mb-1">Direccion completa</span><span id="customer-address" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Apartamento / Casa / Interior / Info adicional</span><span id="customer-address-extra" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Codigo postal</span><span id="customer-postal" class="text-luxury-cream"></span></div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="bg-luxury-800/50 border border-luxury-700/50 rounded-2xl p-6 md:p-8">
+
+                <h2 class="font-mono text-xs uppercase tracking-widest text-luxury-gold mb-6">Estado de Pago</h2>
+
+                <div id="payment-info" class="mb-4"></div>
+
+            </div>
+
+
+
+            <div class="bg-luxury-800/50 border border-luxury-700/50 rounded-2xl p-6 md:p-8">
+
+                <h2 class="font-mono text-xs uppercase tracking-widest text-luxury-gold mb-6">Producto</h2>
+
+                <div class="grid md:grid-cols-2 gap-4 text-sm">
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Producto</span><span id="product-name" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Talla</span><span id="product-size" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Color</span><span id="product-color" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Cantidad</span><span id="product-qty" class="text-luxury-cream"></span></div>
+
+                    <div><span class="text-luxury-500 block text-xs mb-1">Precio total</span><span id="product-price" class="text-luxury-gold font-mono text-lg"></span></div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="bg-luxury-800/50 border border-luxury-700/50 rounded-2xl p-6 md:p-8">
+
+                <h2 class="font-mono text-xs uppercase tracking-widest text-luxury-gold mb-6">Diseno Personalizado</h2>
+
+                <div id="design-color-block" class="order-design-toolbar hidden">
+
+                    <div class="flex items-center justify-between gap-3 mb-2">
+
+                        <span class="font-mono text-[10px] uppercase tracking-wider text-luxury-500">Color</span>
+
+                        <span id="design-active-color-name" class="text-xs text-luxury-gold"></span>
+
+                    </div>
+
+                    <div id="design-color-tabs" class="order-color-tabs"></div>
+
+                </div>
+
+                <div id="design-view-block" class="order-design-toolbar hidden">
+
+                    <div class="flex items-center justify-between gap-3 mb-2">
+
+                        <span class="font-mono text-[10px] uppercase tracking-wider text-luxury-500">Vista</span>
+
+                        <span id="design-active-view-name" class="text-xs text-luxury-gold"></span>
+
+                    </div>
+
+                    <div id="design-view-tabs" class="order-view-tabs"></div>
+
+                </div>
+
+                <div id="design-images"></div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <script>
+
+        // ============================================================
+
+        // CONFIGURACION - EDITA ESTAS 2 LINEAS CON TUS DATOS REALES
+
+        // Encuentralos en: Supabase > Project Settings > API
+
+        // ============================================================
+
+        // En Netlify puedes dejar estos vacios y usar la configuracion guardada en el navegador.
+
+        // Cuando terminemos la configuracion, pondremos aqui la URL y anon key de Supabase.
+
+        var HARDCODED_URL = 'https://xpdmnecyhhzsmujgptwg.supabase.co';
+
+        var HARDCODED_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwZG1uZWN5aGh6c211amdwdHdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MDc1MTgsImV4cCI6MjEwMjM4MzUxOH0.lSD7nM6lOIgULpQ0pvJ3HutKClbtXIbTgApvT5Y0E1M';
+
+        // ============================================================
+
+
+
+        function getSupabaseConfig() {
+
+            if (HARDCODED_URL && HARDCODED_KEY) {
+
+                return { url: HARDCODED_URL, key: HARDCODED_KEY };
+
+            }
+
+            try {
+
+                var saved = localStorage.getItem('jovafam_supabase');
+
+                if (saved) {
+
+                    var cfg = JSON.parse(saved);
+
+                    if (cfg.url && cfg.key) return cfg;
+
+                }
+
+            } catch(e) {}
+
+            return null;
+
+        }
+
+
+
+        function saveConfig(url, key) {
+
+            try { localStorage.setItem('jovafam_supabase', JSON.stringify({ url: url, key: key })); } catch(e) {}
+
+        }
+
+
+
+        function saveAndRetry() {
+
+            var url = document.getElementById('cfg-url').value.trim();
+
+            var key = document.getElementById('cfg-key').value.trim();
+
+            if (!url || !key) { alert('Completa ambos campos'); return; }
+
+            saveConfig(url, key);
+
+            location.reload();
+
+        }
+
+
+
+        var sbClient = null;
+
+
+
+        function initSupabase() {
+
+            var cfg = getSupabaseConfig();
+
+            if (!cfg) return false;
+
+            if (!window.supabase || !window.supabase.createClient) return false;
+
+            try {
+
+                sbClient = window.supabase.createClient(cfg.url, cfg.key);
+
+                return true;
+
+            } catch(e) {
+
+                console.error('Error creando cliente:', e);
+
+                return false;
+
+            }
+
+        }
+
+
+
+        async function loadOrder() {
+
+            var timeoutId = setTimeout(function() {
+
+                showScreen('error-notfound');
+
+            }, 15000);
+
+
+
+            var hasSupabase = initSupabase();
+
+            if (!hasSupabase) {
+
+                clearTimeout(timeoutId);
+
+                showScreen('error-config');
+
+                return;
+
+            }
+
+
+
+            var params = new URLSearchParams(window.location.search);
+
+            var token = params.get('token');
+
+
+
+            if (!token) {
+
+                clearTimeout(timeoutId);
+
+                showScreen('error-notfound');
+
+                return;
+
+            }
+
+
+
+            try {
+
+                var result = await sbClient.rpc('get_order_by_token', { p_token: token });
+
+                clearTimeout(timeoutId);
+
+
+
+                if (result.error) {
+
+                    console.error('RPC error:', result.error);
+
+                    showScreen('error-notfound');
+
+                    return;
+
+                }
+
+                if (!result.data || result.data.length === 0) {
+
+                    showScreen('error-notfound');
+
+                    return;
+
+                }
+
+
+
+                displayOrder(result.data[0]);
+
+            } catch (err) {
+
+                clearTimeout(timeoutId);
+
+                console.error('Exception:', err);
+
+                showScreen('error-notfound');
+
+            }
+
+        }
+
+
+
+        function showScreen(screenId) {
+
+            var ids = ['loading', 'error-notfound', 'error-config', 'order-content'];
+
+            for (var i = 0; i < ids.length; i++) {
+
+                var el = document.getElementById(ids[i]);
+
+                if (el) {
+
+                    if (ids[i] === screenId) el.classList.remove('hidden');
+
+                    else el.classList.add('hidden');
+
+                }
+
+            }
+
+        }
+
+
+
+        var orderDesignGroups = [];
+
+        var activeDesignColorKey = null;
+
+        var activeDesignViewIndex = 0;
+
+
+
+        function escapeOrderHtml(value) {
+
+            return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch) {
+
+                return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[ch];
+
+            });
+
+        }
+
+
+
+        function normalizeViewName(view) {
+
+            var raw = String(view?.view || view?.viewName || '').trim();
+
+            if (!raw) return 'Vista';
+
+            // Los pedidos del editor suelen guardar "Color - Frente".
+
+            if (view?.colorName && raw.toLowerCase().indexOf(String(view.colorName).toLowerCase()) === 0) {
+
+                raw = raw.slice(String(view.colorName).length).replace(/^\s*[-–—:]\s*/, '');
+
+            }
+
+            if (raw.indexOf('Producto catálogo - ') === 0 && view?.colorName) {
+
+                var prefix = 'Producto catálogo - ' + view.colorName + ' - ';
+
+                if (raw.indexOf(prefix) === 0) raw = raw.slice(prefix.length);
+
+            }
+
+            return raw || 'Vista';
+
+        }
+
+
+
+        function makeColorKey(view, index) {
+
+            var id = String(view?.colorId || '').trim();
+
+            var name = String(view?.colorName || '').trim();
+
+            return id || name || ('design-' + index);
+
+        }
+
+
+
+        function buildDesignGroups(views) {
+
+            var map = new Map();
+
+            (views || []).forEach(function(view, index) {
+
+                if (!view || !view.url) return;
+
+                var key = makeColorKey(view, index);
+
+                var name = String(view.colorName || '').trim() || 'Diseño';
+
+                if (!map.has(key)) {
+
+                    map.set(key, {
+
+                        key: key,
+
+                        name: name,
+
+                        hex: String(view.colorHex || view.hex || '').trim(),
+
+                        quantity: Number(view.quantity || 0),
+
+                        views: []
+
+                    });
+
+                }
+
+                map.get(key).views.push({
+
+                    url: String(view.url || '').trim(),
+
+                    name: normalizeViewName(view),
+
+                    raw: view
+
+                });
+
+            });
+
+            return Array.from(map.values());
+
+        }
+
+
+
+        function selectDesignColor(key) {
+
+            if (!orderDesignGroups.some(function(group){ return group.key === key; })) return;
+
+            activeDesignColorKey = key;
+
+            activeDesignViewIndex = 0;
+
+            renderDesignViewer();
+
+        }
+
+
+
+        function selectDesignView(index) {
+
+            var group = orderDesignGroups.find(function(item){ return item.key === activeDesignColorKey; });
+
+            if (!group || !group.views[index]) return;
+
+            activeDesignViewIndex = index;
+
+            renderDesignViewer();
+
+        }
+
+
+
+        function renderDesignViewer() {
+
+            var colorBlock = document.getElementById('design-color-block');
+
+            var colorTabs = document.getElementById('design-color-tabs');
+
+            var colorName = document.getElementById('design-active-color-name');
+
+            var viewBlock = document.getElementById('design-view-block');
+
+            var viewTabs = document.getElementById('design-view-tabs');
+
+            var viewName = document.getElementById('design-active-view-name');
+
+            var designContainer = document.getElementById('design-images');
+
+
+
+            if (!orderDesignGroups.length) {
+
+                if (colorBlock) colorBlock.classList.add('hidden');
+
+                if (viewBlock) viewBlock.classList.add('hidden');
+
+                designContainer.innerHTML = '<p class="text-luxury-500 text-sm">No hay imagen del diseño disponible.</p>';
+
+                return;
+
+            }
+
+
+
+            var group = orderDesignGroups.find(function(item){ return item.key === activeDesignColorKey; }) || orderDesignGroups[0];
+
+            activeDesignColorKey = group.key;
+
+            if (!group.views[activeDesignViewIndex]) activeDesignViewIndex = 0;
+
+            var selectedView = group.views[activeDesignViewIndex];
+
+
+
+            // Mostrar botones de color solo cuando realmente hay más de un color/grupo.
+
+            colorBlock.classList.toggle('hidden', orderDesignGroups.length <= 1);
+
+            colorName.textContent = group.name + (group.quantity ? ' · ' + group.quantity + ' ud.' : '');
+
+            colorTabs.innerHTML = orderDesignGroups.map(function(item) {
+
+                var active = item.key === group.key;
+
+                var dot = item.hex ? '<span class="order-color-dot" style="background:' + escapeOrderHtml(item.hex) + '"></span>' : '';
+
+                return '<button type="button" class="order-color-btn ' + (active ? 'active' : '') + '" data-color-key="' + escapeOrderHtml(item.key) + '">' + dot + '<span>' + escapeOrderHtml(item.name) + '</span>' + (item.quantity ? '<span class="font-mono">' + item.quantity + '</span>' : '') + '</button>';
+
+            }).join('');
+
+            colorTabs.querySelectorAll('[data-color-key]').forEach(function(btn) {
+
+                btn.addEventListener('click', function(){ selectDesignColor(btn.dataset.colorKey); });
+
+            });
+
+
+
+            viewBlock.classList.toggle('hidden', group.views.length <= 1);
+
+            viewName.textContent = selectedView?.name || 'Vista';
+
+            viewTabs.innerHTML = group.views.map(function(item, index) {
+
+                return '<button type="button" class="order-view-btn ' + (index === activeDesignViewIndex ? 'active' : '') + '" data-view-index="' + index + '">' + escapeOrderHtml(item.name) + '</button>';
+
+            }).join('');
+
+            viewTabs.querySelectorAll('[data-view-index]').forEach(function(btn) {
+
+                btn.addEventListener('click', function(){ selectDesignView(Number(btn.dataset.viewIndex)); });
+
+            });
+
+
+
+            if (!selectedView?.url) {
+
+                designContainer.innerHTML = '<p class="text-luxury-500 text-sm">No hay imagen para esta vista.</p>';
+
+                return;
+
+            }
+
+
+
+            designContainer.innerHTML =
+
+                '<div class="order-design-stage">' +
+
+                    '<img src="' + escapeOrderHtml(selectedView.url) + '" alt="' + escapeOrderHtml(group.name + ' - ' + selectedView.name) + '" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<p class=&quot;text-luxury-500 text-sm p-6&quot; loading="lazy" decoding="async">No se pudo cargar esta imagen.</p>\'">' +
+
+                '</div>' +
+
+                '<div class="order-design-meta">' +
+
+                    '<strong>' + escapeOrderHtml(group.name) + '</strong> · ' + escapeOrderHtml(selectedView.name) +
+
+                    (group.quantity ? ' · Cantidad: ' + group.quantity : '') +
+
+                '</div>';
+
+        }
+
+
+
+        function displayOrder(order) {
+
+            showScreen('order-content');
+
+
+
+            document.getElementById('order-id').textContent = '#' + (order.order_id || '???');
+
+            document.getElementById('order-date').textContent = order.created_at
+
+                ? new Date(order.created_at).toLocaleString((localStorage.getItem('jovafam_language')==='en'?'en-US':'es-ES'), { dateStyle: 'long', timeStyle: 'short' })
+
+                : '';
+
+
+
+            document.getElementById('customer-name').textContent = order.customer_name || '-';
+
+            document.getElementById('customer-email').textContent = order.customer_email || '-';
+
+            document.getElementById('customer-phone').textContent = order.customer_phone || '-';
+
+            document.getElementById('customer-country').textContent = order.country || '-';
+
+            document.getElementById('customer-city').textContent = order.city || '-';
+
+            document.getElementById('customer-address').textContent = order.address || '-';
+
+            document.getElementById('customer-address-extra').textContent = order.address_extra || 'No especificado';
+
+            document.getElementById('customer-postal').textContent = order.postal_code || 'No especificado';
+
+
+
+            document.getElementById('product-name').textContent = order.product_name || '-';
+
+            document.getElementById('product-size').textContent = order.product_size || 'No especificado';
+
+            document.getElementById('product-color').textContent = order.product_color || '-';
+
+            document.getElementById('product-qty').textContent = order.quantity || '-';
+
+            document.getElementById('product-price').textContent = '$' + (parseFloat(order.total_price) || 0).toFixed(2);
+
+
+
+            var designContainer = document.getElementById('design-images');
+
+            designContainer.innerHTML = '';
+
+
+
+            var views = order.design_views;
+
+            if (typeof views === 'string') {
+
+                try { views = JSON.parse(views); } catch(e) { views = []; }
+
+            }
+
+            if (!Array.isArray(views)) views = [];
+
+
+
+            // Compatibilidad con pedidos antiguos que solo tienen design_url.
+
+            if (!views.length && order.design_url) {
+
+                views = [{
+
+                    view: 'Diseño principal',
+                    url: order.design_url,
+                    colorId: 'legacy',
+                    colorName: order.product_color || 'Diseño'
+                }];
+            }
+            orderDesignGroups = buildDesignGroups(views);
+            activeDesignColorKey = orderDesignGroups[0]?.key || null;
+            activeDesignViewIndex = 0;
+            renderDesignViewer();
+        }
+        document.addEventListener('DOMContentLoaded', loadOrder);
+
+    </script>
+<script id="jf-bilingual-language">
+(function(){
+  'use strict';
+  const translations = {"Inicio":"Home","Productos":"Products","Catálogo":"Catalog","Catalogo":"Catalog","Personaliza":"Customize","Proceso":"Process","Calidad":"Quality","Crear Diseno":"Create a design","Crear Mi Diseno":"Create my design","Transfer DTF de Alta Gama":"Premium DTF transfers","Viste tu":"Wear your","Imaginacion":"Imagination","Prendas premium con transfer DTF de ultima generacion. Sube tu diseno, elige tu prenda y crea algo unico. Calidad de lujo, entrega express.":"Premium apparel with next-generation DTF transfers. Upload your design, choose a garment, and create something unique. Premium quality and fast delivery.","Personalizar Ahora":"Customize now","Ver Coleccion":"View collection","Disenos":"Designs","Lavados":"Washes","Envio":"Shipping","PERSONALIZACION":"CUSTOMIZATION","CALIDAD DE LUJO":"PREMIUM QUALITY","DISENO PROPIO":"YOUR OWN DESIGN","Excelencia Garantizada":"Excellence guaranteed","La Diferencia":"The difference","16.7M Colores":"16.7M Colors","Tecnologia VIVID AF con impresion en 9 colores. Gamut extendido para colores ultra vibrantes y detalles impresionantes.":"VIVID AF technology with 9-color printing. Extended color gamut for vivid colors and striking detail.","100+ Lavados":"100+ Washes","Testeado en laboratorio. Resistente a decoloracion, agrietamiento y desprendimiento.":"Lab tested. Resistant to fading, cracking, and peeling.","Aplicacion 13s":"13-second application","Tecnologia exclusiva de pelado rapido. Resultados profesionales en segundos.":"Exclusive quick-peel technology. Professional results in seconds.","Cualquier Tela":"Any fabric","Algodon, poliester, mezclas, nylon. Funciona sobre cualquier color y material.":"Cotton, polyester, blends, nylon. Works on any color and material.","Detalle Extremo":"Exceptional detail","Capturamos detalles de hasta 3 pixeles. Bordes nitidos y texto perfecto.":"We capture details as small as 3 pixels, with crisp edges and precise lettering.","Envio Express":"Express shipping","Produccion y envio en 24-48 horas. Sin minimos de pedido.":"Production and shipping in 24–48 hours. No minimum order.","Estudio de Diseno":"Design Studio","Tu Diseno,":"Your design,","Tu Estilo":"Your style","Sube tu arte, fotografia o logo. Nuestro sistema inteligente lo optimiza para impresion DTF de alta definicion.":"Upload your artwork, photo, or logo. Our intelligent system prepares it for high-definition DTF printing.","Sube tu imagen en cualquier formato":"Upload your image in any format","Elige prenda, color y posicion":"Choose a garment, color, and placement","Recibe tu pieza unica en 24-48h":"Receive your unique piece in 24–48h","Subir Mi Diseno":"Upload my design","Vista Previa":"Preview","Vista previa":"Preview","Tamano del Diseno":"Design size","Tienda JOVAFAM":"JOVAFAM Shop","Prendas listas para":"Apparel ready to","Comprar":"Shop","Elige uno de nuestros diseños terminados, selecciona color, reparte la cantidad entre tus tallas y realiza el pedido directamente.":"Choose one of our finished designs, pick a color, distribute quantities across sizes, and place your order.","Ver Catalogo Completo":"View full catalog","Muy pronto encontrarás prendas JOVAFAM listas para comprar.":"JOVAFAM apparel ready to buy is coming soon.","Coleccion":"Collection","Prendas":"Apparel","Como Funciona":"How it works","Tres Pasos hacia la":"Three steps to","Perfeccion":"Perfection","Sube tu Diseno":"Upload your design","Arrastra y suelta tu imagen. Aceptamos PNG, JPG, SVG y AI.":"Drag and drop your image. We accept PNG, JPG, SVG, and AI.","Imprimimos en 24h":"We print in 24h","Proceso DTF propietario con calibracion G7 semanal.":"Proprietary DTF process with weekly G7 calibration.","Recibe y Presiona":"Receive and heat-press","Envio express a tu puerta. Aplica con plancha en 13 segundos.":"Express delivery to your door. Apply with a heat press in 13 seconds.","Galeria":"Gallery","Calidad que se":"Quality you can","Siente":"Feel","Testimonios":"Testimonials","Lo que dicen nuestros":"What our","Clientes":"Customers say","Crea algo":"Create something","Inolvidable":"Unforgettable","Tu diseno merece la mejor calidad. Empieza hoy y descubre por que miles de creadores confian en Jovafam.":"Your design deserves the best quality. Start today and discover why creators trust Jovafam.","Explorar Productos":"Explore products","Transfer DTF premium y prendas personalizadas de alta gama. Calidad de lujo, entrega express.":"Premium DTF transfers and custom apparel. Exceptional quality and express delivery.","Camisetas Premium":"Premium T-shirts","Gorras":"Caps","Empresa":"Company","Sobre Nosotros":"About us","Envios":"Shipping","Contacto":"Contact","Soporte":"Support","Centro de Ayuda":"Help center","Guia de Tallas":"Size guide","Instrucciones de Prensa":"Heat-press instructions","© 2026 Jovafam. Todos los derechos reservados.":"© 2026 Jovafam. All rights reserved.","Pago Seguro":"Secure payment","Colección JOVAFAM":"JOVAFAM collection","Encuentra tu prenda":"Find your perfect","ideal":"garment","Explora prendas personalizables para abrir directamente en Studio y productos JOVAFAM ya diseñados para compra directa.":"Explore customizable apparel to design in Studio and finished JOVAFAM products available for direct purchase.","Todos los tipos":"All types","Personalizables":"Customizable","Compra directa":"Buy directly","Todas las categorías":"All categories","Cargando catálogo...":"Loading catalog...","No hay prendas disponibles":"No apparel available","Prueba otro filtro o vuelve pronto para ver nuevas publicaciones.":"Try another filter or check back soon for new products.","Color para visualizar":"Preview color","Cambia color sin salir de la foto":"Switch colors without leaving the photo","Imagen no disponible":"Image unavailable","Vista":"View","Frente":"Front","Espalda":"Back","Lado izq.":"Left side","Lado der.":"Right side","Hombro izquierdo":"Left shoulder","Hombro derecho":"Right shoulder","por unidad":"per item","Compra multicolor":"Multiple-color order","La foto de la izquierda es solo la vista previa. Puedes combinar varios colores y tallas en el mismo pedido.":"The photo on the left is just a preview. You can combine multiple colors and sizes in one order.","Elegir":"Select","Cantidad":"Quantity","Colores y tallas":"Colors and sizes","Elegir colores y tallas":"Choose colors and sizes","Aún no has distribuido colores y tallas.":"You haven't assigned colors and sizes yet.","Precio unitario":"Unit price","Descuento":"Discount","Total":"Total","Pedir esta prenda":"Order this item","Distribuye el pedido entre varios colores y tallas.":"Split your order across multiple colors and sizes.","Total asignado":"Total assigned","Cancelar":"Cancel","Aplicar tallas":"Apply sizes","Confirmar Pedido":"Confirm order","Prenda terminada del catálogo JOVAFAM":"Finished item from the JOVAFAM catalog","Continuar":"Continue","Producto":"Product","Selecciona método de pago":"Choose a payment method","Pagar con tarjeta":"Pay by card","← Volver a envío":"← Back to shipping","Personalizar una prenda":"Customize a garment","Personalizable":"Customizable","Destacada":"Featured","Ábrela en Studio y crea tu diseño":"Open in Studio and create your design","Personalizar esta prenda":"Customize this item","Elegir color y tallas":"Choose color and sizes","Sin imagen":"No image","General":"General","Sin diseno":"No design","Pedir":"Order","Crea tu":"Create your","Diseno":"Design","Elige prenda, color y vista. Sube tu imagen, genera con AI o anade texto.":"Choose a garment, color, and view. Upload an image, generate with AI, or add text.","Subir Imagen":"Upload image","Click o arrastra imagen":"Click or drag an image","PNG, JPG, WEBP hasta 10MB":"PNG, JPG, WEBP up to 10 MB","✨ Quitar fondo":"✨ Remove background","Generar con AI":"Generate with AI","Capas ·":"Layers ·","Ajustar Capa":"Adjust layer","Editar":"Edit","Tamano":"Size","Tamaño":"Size","Rotacion":"Rotation","Opacidad":"Opacity","Texto":"Text","Elegante":"Elegant","Moderno":"Modern","Tecnico":"Technical","Condensada":"Condensed","Anadir Texto":"Add text","Añadir Texto":"Add text","+ Fuente Propia":"+ Custom font","El texto aparece mientras escribes.":"Text appears as you type.","Arrastra el texto en el canvas para moverlo. Selecciona una capa para editarla.":"Drag text on the canvas to move it. Select a layer to edit it.","Selecciona una prenda":"Select a garment","Elige producto, color y vista":"Choose a product, color, and view","Prenda":"Garment","Seleccionar prenda":"Select garment","Color de vista previa":"Preview color","Aquí ves el diseño sobre un color. En “Colores y tallas” puedes pedir varios colores.":"Here you see the design on one color. Use “Colors and sizes” to order multiple colors.","Talla":"Size","Distribuye la cantidad total entre varios colores y tallas.":"Distribute your total quantity across different colors and sizes.","Color del pedido":"Order color","Aplicar selección":"Apply selection","Ver diseño":"View design","Ver diseño abre una vista limpia de la prenda para revisar colores y vistas. El área imprimible sigue recortando el diseño durante la edición.":"View design opens a clean preview to review colors and sides. The printable area still clips your design while editing.","Posiciones rápidas":"Quick placements","Selecciona una capa y aplica una posición preparada para esta prenda.":"Select a layer and apply a placement preset for this garment.","Descuento aplicado: -":"Discount applied: -","Precio":"Price","Personalizacion":"Customization","Puedes comprar varios colores desde “Colores y tallas”.":"You can purchase multiple colors through “Colors and sizes”.","Selecciona prenda y color para verla aqui":"Select a garment and color to preview it here","Archivo / AI":"File / AI","Subir imagen":"Upload image","PNG, JPG o WEBP":"PNG, JPG, or WEBP","Selecciona una capa y aplica un preset.":"Select a layer and apply a preset.","Pedir ahora - $":"Order now - $","Vista del diseño":"Design preview","Color":"Color","Preparando vista...":"Preparing preview...","Describe el arte que quieres para tu prenda. JOVAFAM lo preparara como diseno aislado para impresion.":"Describe the artwork you want for your garment. JOVAFAM will prepare it as an isolated design for printing.","Generar":"Generate","Creando diseno...":"Creating design...","Historial":"History","Tus disenos AI se conservan para reutilizarlos en otras prendas.":"Your AI designs are saved for reuse on other garments.","Aun no has generado imagenes.":"You haven't generated any images yet.","Pais *":"Country *","Ciudad *":"City *","Codigo postal":"Postal code","Apartamento / Casa / Interior / Info adicional":"Apartment / House / Unit / Additional details","* Campos obligatorios":"* Required fields","Continuar al pago":"Continue to payment","Resumen del pedido":"Order summary","Producto:":"Product:","Cantidad:":"Quantity:","Total a pagar:":"Total to pay:","Selecciona metodo de pago":"Choose a payment method","PayPal no esta configurado. Ve a Admin > Conexion para configurarlo.":"PayPal is not configured. Go to Admin > Connection to set it up.","Pagar con tarjeta de credito":"Pay by credit card","Stripe no esta configurado. Ve a Admin > Conexion para configurarlo.":"Stripe is not configured. Go to Admin > Connection to set it up.","← Volver a datos de envio":"← Back to shipping details","Editar texto":"Edit text","Cambia el contenido, color o fuente sin perder posición ni tamaño.":"Change the text, color, or font without losing its placement or size.","Fuente":"Font","Aplicar cambios":"Apply changes","Cargando pedido...":"Loading order...","Pedido no encontrado":"Order not found","El enlace puede haber expirado o ser incorrecto.":"The link may have expired or be incorrect.","Configuracion necesaria":"Setup required","Este dispositivo no tiene la conexion a Supabase configurada. Pega aqui los datos de tu proyecto para ver el pedido.":"This device has no Supabase connection configured. Enter your project credentials to view the order.","Guardar y Ver Pedido":"Save and view order","Los encuentras en Supabase > Project Settings > API":"Find them under Supabase > Project Settings > API","Pedido Confirmado":"Order confirmed","Pedido":"Order","Datos del Cliente":"Customer details","Nombre":"Name","Correo":"Email","Telefono":"Phone","Pais":"Country","Ciudad":"City","Direccion completa":"Full address","Estado de Pago":"Payment status","Precio total":"Total price","Diseno Personalizado":"Custom design","No especificado":"Not provided","No hay imagen del diseño disponible.":"No design image available.","No hay imagen para esta vista.":"No image for this view.","No se pudo cargar esta imagen.":"Could not load this image.","Diseño principal":"Main design","Diseño":"Design","Panel de Administracion Seguro":"Secure administration panel","Contrasena":"Password","Acceder":"Sign in","Verificando sesion...":"Checking session...","Solo cuentas autorizadas en JOVAFAM Admin.":"Only authorized JOVAFAM Admin accounts can sign in.","La sesion se cierra automaticamente tras 10 minutos de inactividad.":"Your session ends automatically after 10 minutes of inactivity.","Panel":"Dashboard","Ver Web":"View website","Ver Catalogo":"View catalog","Ver Editor":"View editor","Salir":"Sign out","Prendas Activas":"Active garments","Total Fotos":"Total photos","Precio Medio":"Average price","Productos Tienda":"Shop products","Prendas Studio":"Studio garments","Fuentes Studio":"Studio fonts","Recursos":"Assets","Catálogo directo":"Direct catalog","Precios":"Pricing","Descuentos":"Discounts","Personalizar Inicio":"Customize homepage","Paises":"Countries","Conexion":"Connection","Pedidos":"Orders","Prendas del Studio":"Studio garments","+ Nueva Prenda":"+ New garment","Restaurar":"Restore","Fuentes permanentes del Studio":"Permanent Studio fonts","Sube una fuente una sola vez. Las fuentes activas aparecerán automáticamente en el Editor para todos los clientes.":"Upload a font once. Active fonts appear automatically in the Editor for every customer.","Activas":"Active","Añadir fuente":"Add font","Nombre que verá el cliente":"Name shown to customers","Archivo":"File","TTF, OTF, WOFF o WOFF2. Usa solo fuentes con licencia adecuada para tu negocio.":"TTF, OTF, WOFF, or WOFF2. Use only fonts licensed for your business.","Subir y activar":"Upload and enable","Biblioteca":"Library","Desactivar no elimina el archivo; simplemente deja de aparecer en el Editor.":"Disabling does not delete the file; it simply hides it from the Editor.","Biblioteca de recursos":"Asset library","Explora imágenes y fuentes del sitio. Los archivos de pedidos de clientes quedan excluidos de esta biblioteca.":"Browse images and fonts on the website. Customer-order files are excluded from this library.","Actualizar biblioteca":"Refresh library","Archivos":"Files","En uso":"In use","Libres":"Unused","Imágenes":"Images","Fuentes":"Fonts","Otros":"Other","En uso y libres":"Used and unused","Solo en uso":"Used only","Solo libres":"Unused only","Abre esta pestaña para cargar la biblioteca.":"Open this tab to load the library.","Tienda · Prendas listas para comprar":"Shop · Ready-to-buy apparel","Vista compacta tipo tienda: haz clic en una tarjeta para editarla. Los colores se administran como pestañas horizontales dentro de cada producto.":"Compact shop view: click a card to edit it. Manage colors using the horizontal tabs for each product.","Todos":"All","Publicados":"Published","Ocultos":"Hidden","Orden manual":"Manual order","Nombre A-Z":"Name A–Z","Precio menor":"Lowest price","Precio mayor":"Highest price","Más recientes":"Most recent","+ Nueva prenda":"+ New garment","Ver tienda":"View shop","Configuracion de Precios":"Pricing settings","Numero WhatsApp (con codigo pais)":"WhatsApp number (with country code)","Sin + ni espacios. Ej: 573001234567":"No + sign or spaces. Example: 573001234567","Personalización · Imágenes":"Customization · Images","Máximo de imágenes":"Maximum images","Primera imagen ($)":"First image ($)","Imagen adicional ($)":"Additional image ($)","Personalización · Textos":"Customization · Text","Máximo de textos":"Maximum text items","Primer texto ($)":"First text ($)","Texto adicional ($)":"Additional text ($)","Precios por Zona de Impresion":"Print area pricing","Define el costo adicional por cada zona donde se imprime el diseno.":"Set the additional cost for each area where the design is printed.","Frente (primera zona)":"Front (first area)","Espalda (adicional)":"Back (additional)","Mangas / Lados (adicional, ambas juntas)":"Sleeves / Sides (additional, both)","Descuentos por Cantidad":"Quantity discounts","+ Nuevo Descuento":"+ New discount","El descuento se aplica automaticamente en el editor segun la cantidad seleccionada.":"The discount is applied automatically in the Editor based on the chosen quantity.","Personalizar Pagina de Inicio":"Customize homepage","Guardado automatico":"Autosave","Guardar ahora":"Save now","Prendas Premium (Index)":"Premium apparel (Homepage)","+ Añadir":"+ Add","Maximo 4 productos. Arrastra la imagen o usa el boton de subir.":"Maximum 4 products. Drag an image or use the upload button.","Galeria \"Calidad que se Siente\"":"Gallery “Quality You Can Feel”","+ Añadir Imagen":"+ Add image","Maximo 6 imagenes. Se distribuyen automaticamente en la cuadricula.":"Maximum 6 images. They are automatically arranged in the grid.","Testimonios de Clientes":"Customer testimonials","+ Añadir Testimonio":"+ Add testimonial","Maximo 3 testimonios.":"Maximum 3 testimonials.","Paises de envio":"Shipping countries","Lista de paises disponibles":"Available countries","Escribe un pais por linea. El primero sera el predeterminado en el formulario de pedido.":"Enter one country per line. The first will be the default in the order form.","Guardar paises":"Save countries","Configuracion de Conexion":"Connection settings","Pagos en linea":"Online payments","Activar":"Enable","Desactiva esto mientras configuras PayPal/Stripe. Cuando esta desactivado, los clientes pueden hacer pedidos sin pagar en linea (pago manual).":"Turn this off while configuring PayPal/Stripe. When disabled, customers can place orders without paying online (manual payment).","Pagos desactivados - modo simulacion":"Payments disabled – simulation mode","Supabase Backend":"Supabase backend","Configura tu proyecto Supabase para guardar pedidos y disenos. Ve a supabase.com, crea un proyecto, y pega aqui los datos.":"Configure Supabase to save orders and designs. Create a project at supabase.com and enter its details here.","La anon key es publica por diseno en Supabase. La seguridad real esta en las politicas RLS.":"The anon key is public by design in Supabase. Actual security is enforced by RLS policies.","Probar Conexion":"Test connection","Restaurar JOVAFAM":"Restore JOVAFAM","Instrucciones":"Instructions","Crea una cuenta en":"Create an account at","Crea un nuevo proyecto":"Create a new project","Ve a SQL Editor y ejecuta el script":"Open SQL Editor and run the script","Ve a Project Settings > API y copia la URL y la anon key":"Open Project Settings > API and copy the URL and anon key","Pegalos aqui y guarda":"Paste them here and save","Sube el archivo":"Upload the file","a tu hosting junto a los demas":"to your hosting with the others","Sincronizacion del catalogo":"Catalog synchronization","Sincronizar ahora":"Sync now","Guardar":"Save","Eliminar":"Delete","Editar producto":"Edit product","Color principal":"Main color","Solo texto":"Text only","Diseño completo":"Full design","Calibrar prenda":"Calibrate garment","Guardar calibración":"Save calibration","Colores":"Colors","Tallas disponibles en esta prenda Studio":"Available sizes for this Studio garment","Vista frontal":"Front view","Vista trasera":"Back view","Agregar":"Add","Aceptar":"OK","Volver":"Back","Actualizar":"Refresh","Buscar":"Search","Buscar prendas...":"Search garments...","Buscar camiseta, hoodie, estilo...":"Search T-shirt, hoodie, style...","Tu texto...":"Your text...","Nombre completo *":"Full name *","Correo electrónico *":"Email address *","Teléfono / WhatsApp *":"Phone / WhatsApp *","País *":"Country *","Dirección completa *":"Full address *","Apto / Interior":"Apartment / Unit","Código postal":"ZIP / Postal code","Notas adicionales...":"Additional notes...","Sin resultados":"No results","Error de conexión":"Connection error","Guardar cambios":"Save changes","Hacer pedido":"Place order","Abrir pedido online":"View order online","Archivo no encontrado":"File not found","No hay productos disponibles":"No products available","Selecciona":"Select","Color seleccionado":"Selected color","Envío":"Shipping","Precio base":"Base price","Descripción":"Description","Categoria":"Category","Categoría":"Category","Publicado":"Published","Borrador":"Draft","Oculto":"Hidden","Nueva prenda":"New garment","Nueva Prenda":"New garment","JOVAFAM | Catálogo de Prendas":"JOVAFAM | Apparel Catalog","JOVAFAM Studio | Crea tu Diseno":"JOVAFAM Studio | Create Your Design","JOVAFAM | Pedido":"JOVAFAM | Order","JOVAFAM | Panel de Administracion":"JOVAFAM | Administration Dashboard","JOVAFAM | Transfer DTF Premium & Prendas Personalizadas":"JOVAFAM | Premium DTF Transfers & Custom Apparel"};
+  const storageKey='jovafam_language';
+  const valid=['es','en'];
+  // Priority: explicit URL > customer's previously chosen language > browser language.
+  // Country is not used: a Spanish-speaking customer in the US keeps Spanish.
+  let storedLanguage='';
+  try{storedLanguage=localStorage.getItem(storageKey)||'';}catch(e){}
+  const browserLanguage=String((navigator.languages&&navigator.languages[0])||navigator.language||'en').toLowerCase();
+  let language=(new URLSearchParams(location.search).get('lang')||storedLanguage||(browserLanguage.startsWith('es')?'es':'en')).toLowerCase();
+  if(!valid.includes(language))language='es';
+  try{localStorage.setItem(storageKey,language);}catch(e){}
+  const originals=new WeakMap();
+  const attrs=new WeakMap();
+  let processing=false;
+  const skipTags=new Set(['SCRIPT','STYLE','NOSCRIPT','CODE','PRE','TEXTAREA']);
+  function translated(s){
+    const trim=s.trim();
+    if(!trim)return s;
+    let value=translations[trim];
+    if(!value){
+      const m=trim.match(/^(\d+) \/ (\d+) asignadas$/);
+      if(m)value=m[1]+' / '+m[2]+' assigned';
+    }
+    if(!value)return s;
+    const head=s.match(/^\s*/)[0],tail=s.match(/\s*$/)[0];
+    return head+value+tail;
+  }
+  function textNode(node){
+    if(!node || node.nodeType!==3 || skipTags.has(node.parentElement?.tagName))return;
+    const actual=node.nodeValue||'';
+    let original=originals.get(node);
+    if(original===undefined || (actual!==original && actual!==translated(original))) {
+      original=actual;originals.set(node,original);
+    }
+    const desired=language==='en'?translated(original):original;
+    if(actual!==desired)node.nodeValue=desired;
+  }
+  const attrNames=['placeholder','title','aria-label','alt'];
+  function attributes(el){
+    if(!el || el.nodeType!==1 || skipTags.has(el.tagName))return;
+    let saved=attrs.get(el);
+    if(!saved){saved={};attrs.set(el,saved);}
+    for(const key of attrNames){
+      if(!el.hasAttribute(key))continue;
+      const current=el.getAttribute(key)||'';
+      const prior=saved[key];
+      if(prior===undefined || (current!==prior && current!==translated(prior)))saved[key]=current;
+      const expected=language==='en'?translated(saved[key]):saved[key];
+      if(current!==expected)el.setAttribute(key,expected);
+    }
+  }
+  function process(root){
+    if(!root)return;
+    if(root.nodeType===3){textNode(root);return;}
+    if(root.nodeType!==1 && root.nodeType!==9 && root.nodeType!==11)return;
+    if(root.nodeType===1){if(skipTags.has(root.tagName))return;attributes(root);}
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT);
+    while(walker.nextNode()){
+      const node=walker.currentNode;
+      if(node.nodeType===3)textNode(node);
+      else attributes(node);
+    }
+  }
+  function setLanguage(next){
+    if(!valid.includes(next))return;
+    language=next;
+    try{localStorage.setItem(storageKey,next);}catch(e){}
+    document.documentElement.lang=next;
+    document.querySelectorAll('.jf-lang-picker').forEach(select=>select.value=next);
+    process(document.body);
+    if(!window.__jfOriginalPageTitle)window.__jfOriginalPageTitle=document.title;
+    document.title=language==='en'?translated(window.__jfOriginalPageTitle):window.__jfOriginalPageTitle;
+  }
+  function addPicker(){
+    if(document.querySelector('.jf-lang-picker'))return;
+    const box=document.createElement('div');
+    box.className='jf-lang-container';
+    box.setAttribute('role','group');
+    box.setAttribute('aria-label','Idioma / Language');
+    box.style.cssText='position:fixed!important;right:16px!important;top:86px!important;z-index:2147483000!important;display:flex!important;align-items:center!important;gap:7px!important;padding:7px 9px!important;border:1px solid #c9a96e!important;border-radius:12px!important;background:#ffffff!important;box-shadow:0 6px 24px rgba(0,0,0,.22)!important;visibility:visible!important;opacity:1!important;transform:none!important;';
+    const mark=document.createElement('span');
+    mark.textContent='🌐';
+    mark.setAttribute('aria-hidden','true');
+    mark.style.cssText='font-size:17px;line-height:1';
+    const select=document.createElement('select');
+    select.className='jf-lang-picker';
+    select.setAttribute('aria-label','Seleccionar idioma / Select language');
+    select.style.cssText='appearance:auto!important;display:block!important;position:static!important;background:#ffffff!important;color:#252525!important;border:1px solid #b58a45!important;border-radius:7px!important;padding:8px 7px!important;font:600 13px Inter,Arial,sans-serif!important;cursor:pointer!important;min-width:110px!important;max-width:none!important;height:auto!important;visibility:visible!important;opacity:1!important;';
+    select.innerHTML='<option value="es">Español</option><option value="en">English</option>';
+    select.value=language;
+    select.addEventListener('change',()=>setLanguage(select.value));
+    box.append(mark,select);
+    document.body.appendChild(box);
+    if(!document.getElementById('jf-lang-visibility-style')){
+      const style=document.createElement('style');
+      style.id='jf-lang-visibility-style';
+      style.textContent='@media(max-width:700px){.jf-lang-container{top:auto!important;bottom:16px!important;right:12px!important;padding:6px 8px!important}.jf-lang-picker{font-size:12px!important;min-width:94px!important}}';
+      document.head.appendChild(style);
+    }
+  }
+  const observer=new MutationObserver(changes=>{
+    if(processing)return;
+    processing=true;
+    try{
+      for(const change of changes){
+        if(change.type==='characterData')textNode(change.target);
+        else if(change.type==='childList')for(const n of change.addedNodes)process(n);
+      }
+      if(!document.querySelector('.jf-lang-picker'))addPicker();
+    }finally{processing=false;}
+  });
+  function init(){
+    addPicker();setLanguage(language);
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  else init();
+  window.JovafamLanguage={get:()=>language,set:setLanguage,translate:translated};
+})();
+</script>
+</body>
+</html>
